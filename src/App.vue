@@ -1,15 +1,14 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import { initFlowbite } from 'flowbite'
-import ApexCharts from 'apexcharts'
+
+const series = ref([35.1, 23.5, 2.4, 5.4])
 
 const getChartOptions = () => {
   return {
-    series: [35.1, 23.5, 2.4, 5.4],
+    series: series.value,
     colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
     chart: {
-      height: 320,
-      width: "100%",
       type: "donut",
     },
     stroke: {
@@ -47,7 +46,6 @@ const getChartOptions = () => {
               },
             },
           },
-          size: "80%",
         },
       },
     },
@@ -91,34 +89,31 @@ const getChartOptions = () => {
 // initialize Flowbite
 onMounted(() => {
   initFlowbite();
-  let chart = reactive(new ApexCharts(document.getElementById("donut-chart"), getChartOptions()));
-  chart.render();
 })
 
 function handleCheckboxChange(event, chart) {
-  // const checkbox = event.target;
-  // if (checkbox.checked) {
-  //   switch (checkbox.value) {
-  //     case 'desktop':
-  //       console.log('desktop')
-  //       chart.updateSeries([15.1, 22.5, 4.4, 8.4]);
-  //       break;
-  //     case 'tablet':
-  //       console.log('tablet')
-  //       chart.value.updateSeries([25.1, 26.5, 1.4, 3.4]);
-  //       break;
-  //     case 'mobile':
-  //       console.log('mobile')
-  //       chart.updateSeries([45.1, 27.5, 8.4, 2.4]);
-  //       break;
-  //     default:
-  //       console.log('default')
-  //       chart.updateSeries([55.1, 28.5, 1.4, 5.4]);
-  //   }
-
-  // } else {
-  //   chart.updateSeries([35.1, 23.5, 2.4, 5.4]);
-  // }
+  const checkbox = event.target;
+  if (checkbox.checked) {
+    switch (checkbox.value) {
+      case 'desktop':
+        console.log('desktop')
+        series.value = [15.1, 22.5, 4.4, 8.4];
+        break;
+      case 'tablet':
+        console.log('tablet')
+        series.value = [25.1, 26.5, 1.4, 3.4];
+        break;
+      case 'mobile':
+        console.log('mobile')
+        series.value = [45.1, 27.5, 8.4, 2.4];
+        break;
+      default:
+        console.log('default')
+        series.value = [55.1, 28.5, 1.4, 5.4];
+    }
+  } else {
+    series.value = [35.1, 23.5, 2.4, 5.4];
+  }
 }
 
 </script>
@@ -183,7 +178,13 @@ function handleCheckboxChange(event, chart) {
     </div>
 
     <!-- Donut Chart -->
-    <div class="py-6" id="donut-chart"></div>
+    <!-- <div class="py-6" id="donut-chart"></div> -->
+        <apexchart
+        class="py-6"
+        type="donut"
+        :options="getChartOptions()"
+        :series="series"
+      ></apexchart>
 
     <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
       <div class="flex justify-between items-center pt-5">
