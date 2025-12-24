@@ -4,13 +4,25 @@ import { initFlowbite } from 'flowbite'
 
 const series = ref([35.1, 23.5, 2.4, 5.4])
 
-const getChartOptions = () => {
-  return {
-    series: series.value,
-    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
-    chart: {
-      type: "donut",
+const chartOptions = {
+  colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
+  chart: {
+    type: "donut",
+    height: 320,
+    width: 320,
+    sparkline: {
+      enabled: false,
     },
+  },
+  responsive: [{
+    breakpoint: 10000,
+    options: {
+      chart: {
+        height: 320,
+        width: 320,
+      }
+    }
+  }],
     stroke: {
       colors: ["transparent"],
       lineCap: "",
@@ -82,7 +94,6 @@ const getChartOptions = () => {
         show: false,
       },
     },
-  }
 }
 
 
@@ -178,13 +189,15 @@ function handleCheckboxChange(event, chart) {
     </div>
 
     <!-- Donut Chart -->
-    <!-- <div class="py-6" id="donut-chart"></div> -->
+    <div class="py-6 flex justify-center">
+      <div style="width: 320px; height: 320px;">
         <apexchart
-        class="py-6"
-        type="donut"
-        :options="getChartOptions()"
-        :series="series"
-      ></apexchart>
+          type="donut"
+          :options="chartOptions"
+          :series="series"
+        ></apexchart>
+      </div>
+    </div>
 
     <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
       <div class="flex justify-between items-center pt-5">
